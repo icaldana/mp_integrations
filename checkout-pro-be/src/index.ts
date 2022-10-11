@@ -27,13 +27,6 @@ app.post('/preference', (req: Request, res: Response) => {
             unit_price: Number(req.body.price),
             quantity: Number(req.body.quantity),
         }],
-        // payment_methods: {
-        //     excluded_payment_methods: [{ id: "master" }
-        //     ],
-        //     excluded_payment_types: [{ id: "ticket" }],
-        //     installments: 12
-        // },
-        // statement_descriptor: "ISMAEL_ONBOARDING",
         back_urls: {
             success: "http://localhost:3000",
             failure: "http://localhost:3000",
@@ -52,15 +45,6 @@ app.post('/preference', (req: Request, res: Response) => {
             console.log(error);
         });
 });
-
-// app.get('/feedback', function (req: Request, res: Response) {
-//     res.json({
-//         Payment: req.query.payment_id,
-//         Status: req.query.status,
-//         MerchantOrder: req.query.merchant_order_id
-//     });
-// });
-
 
 app.listen(port, () => {
     console.log(`⚡️ Server is running at localhost:${port}!`);

@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import mouseImg from "../src/assets/mouse.jpg"
+
+interface CustomWindow extends Window {
+  mercadoPago?: any;
+}
 
 const App = () => {
   const [preferenceId, setPreferenceId] = useState("")
 
   useEffect(() => {
+    const searchParameters = Object.fromEntries(new URLSearchParams(window.location.search));
+    if (Object.keys(searchParameters).length) {
+      console.log(searchParameters)
+      alert(`Status do pagamento: ${JSON.stringify(searchParameters)}`)
+    }
+  }, [])
+
+  useEffect(() => {
     if (!preferenceId) return;
     alert("Calling checkout");
-    (window as any).mercadoPago.checkout({
+    const customWindow: CustomWindow = window;
+    customWindow.mercadoPago.checkout({
       preference: {
         id: preferenceId
       },
@@ -49,7 +61,6 @@ const App = () => {
       <h3>White wireless mouse</h3>
       <ProductImg src={mouseImg} className='shopping-cart--mouse' alt='mouse' />
       {!preferenceId && <button onClick={createPreference}>Comprar!</button>}
-      <div className='checkout-button' ></div>
     </Wrapper>
   );
 }
