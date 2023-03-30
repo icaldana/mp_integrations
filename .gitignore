@@ -1,9 +1,9 @@
-/checkout-pro-be/node_modules
-/checkout-pro-fe/node_modules
-/checkout-pro-fe/.pnp
+/server/node_modules
+/client/**/node_modules
+/client/**/.pnp
 .pnp.js
 /coverage
-/checkout-pro-fe/build
+/client/**/build
 .DS_Store
 .env.local
 .env.development.local
