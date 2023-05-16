@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+
+<body>
+    <script>
+        const mp = new MercadoPago('TEST-21eb9570-93b0-4a59-916a-821cca27fd29');
+        mp.bricks().create("wallet", "wallet_container", {
+            initialization: {
+                preferenceId: "285966773-51ba5ea0-eee5-4180-96a8-795ee3933c28",
+                redirectMode: 'blank'
+            },
+            customization: {
+                texts: {
+                    action: 'buy',
+                    valueProp: 'security_details',
+                },
+                visual: {
+                    buttonBackground: 'yellow',
+                    borderRadius: '16px',
+                },
+                checkout: {
+                    theme: {
+                        elementsColor: "#4287F5",
+                        headerColor: "#4287F5",
+                    },
+                },
+                callbacks: {
+                    onReady: () => { console.log('onReady') },
+                    onSubmit: () => { console.log('onReady') },
+                    onError: (error) => console.error(error),
+                },
+            },
+        });
+    </script>
+    <div id="wallet_container"></div>
+</body>
+
+</html>

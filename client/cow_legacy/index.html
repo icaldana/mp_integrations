@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Legacy Checkout Pro</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<script>
+    const mp = new MercadoPago('APP_USR-76f5518f-ee38-4fd8-803f-fb19f907c40e', {
+        locale: 'en-US',
+        advancedFraudPrevention: true,
+    });
+
+    fetch("http://localhost:8000/preference", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            quantity: '100',
+            description: 'My special item uju',
+            price: '12'
+        }),
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+
+            // Integration with custom button INIT_POINT
+            var link = document.getElementById("hiperlink_id");
+            link.href = data.preference.init_point;
+            console.log(data.preference);
+            // Legacy default integration
+            var checkout = mp.checkout({
+
+                preference: {
+                    id: data.preference.id
+                },
+                // autoOpen: true,
+                render: {
+                    container: '#button-checkout',
+                    label: 'Pay',
+                    // type: 'wallet'
+                }
+            });
+
+            console.log(data.preference.id)
+            // Integration with .open button
+            const radio = document.getElementById('checkout-open-radio');
+            radio.onclick = () => checkout.open();
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert("Unexpected error");
+        });
+
+</script>
+<h3>Legacy default integration</span>
+    <div id="button-checkout"></div>
+    </br>
+    <hr />
+    <h3>Integration with custom button</h3>
+    <a id="hiperlink_id" href="redirectTo();">
+        <label>Custom buttom</label>
+    </a>
+    <hr />
+    <h3>Integration with .open button</h3>
+    <li>
+        <label for="radio">Botão open-radio: </label>
+        <input type="radio" id="checkout-open-radio" />
+    </li>
+    </body>
+
+</html>

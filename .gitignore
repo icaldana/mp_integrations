@@ -4,6 +4,7 @@
 .pnp.js
 /coverage
 /client/**/build
+/server/**/build
 .DS_Store
 .env.local
 .env.development.local
