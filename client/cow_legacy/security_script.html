@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Checkout Pro with Security Scripts</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://www.mercadopago.com/v2/security.js"></script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<script>
+    const initialDate = new Date().getTime();
+    const mp = new MercadoPago('TEST-21eb9570-93b0-4a59-916a-821cca27fd29', {
+        locale: 'en-US',
+        advancedFraudPrevention: true,
+    });
+
+    function waitForSecurityScript() {
+        if (window.MP_DEVICE_SESSION_ID) {
+            const finalDate = (new Date().getTime() - initialDate) / 1000;
+            fetch("http://localhost:8000/preference", {
+                method: "POST",
+                headers: {
+                    "X-meli-session-id": window.MP_DEVICE_SESSION_ID,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    quantity: '100',
+                    description: 'My special item uju',
+                    price: '12'
+                }),
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+
+                    // Integration with custom button INIT_POINT
+                    var link = document.getElementById("hiperlink_id");
+                    link.href = data.preference.init_point;
+
+                    // Legacy default integration
+                    var checkout = mp.checkout({
+
+                        preference: {
+                            id: data.preference.id
+                        },
+                        // autoOpen: true,
+                        render: {
+                            container: '#button-checkout',
+                            label: 'Pay',
+                            // type: 'wallet'
+                        }
+                    });
+
+                    console.log("Preference:", data.preference.id)
+                    console.log("DeviceId:", window.MP_DEVICE_SESSION_ID);
+                    console.log("Time to load:", finalDate);
+                    // Integration with .open button
+                    const radio = document.getElementById('checkout-open-radio');
+                    radio.onclick = () => checkout.open();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    alert("Unexpected error");
+                });
+        }
+        else {
+            setTimeout(waitForSecurityScript, 100);
+        }
+    }
+
+    waitForSecurityScript();
+
+</script>
+<h3>Legacy default integration</span>
+    <div id="button-checkout"></div>
+    </br>
+    <hr />
+    <h3>Integration with custom button</h3>
+    <a id="hiperlink_id" href="redirectTo();">
+        <label>Custom buttom</label>
+    </a>
+    <hr />
+    <h3>Integration with .open button</h3>
+    <li>
+        <label for="radio">Botão open-radio: </label>
+        <input type="radio" id="checkout-open-radio" />
+    </li>
+    </body>
+
+</html>

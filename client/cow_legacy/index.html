@@ -32,7 +32,7 @@
             // Integration with custom button INIT_POINT
             var link = document.getElementById("hiperlink_id");
             link.href = data.preference.init_point;
-            console.log(data.preference);
+
             // Legacy default integration
             var checkout = mp.checkout({
 
@@ -47,7 +47,7 @@
                 }
             });
 
-            console.log(data.preference.id)
+            console.log("Preference:", data.preference.id)
             // Integration with .open button
             const radio = document.getElementById('checkout-open-radio');
             radio.onclick = () => checkout.open();
