@@ -1,24 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import mouseImg from './assets/mouse.jpg';
+import React from "react";
+import styled from "styled-components";
+import { Payment } from '@mercadopago/sdk-react';
 
-interface CustomWindow extends Window {
-  mercadoPago?: any;
-}
-
+import { initMercadoPago } from "@mercadopago/sdk-react";
+initMercadoPago("TEST-814cc87a-446c-4d2d-ae74-eebcda92c656");
 const PaymentBrick = () => {
-  const [preferenceId, setPreferenceId] = useState("")
+  const initialization = {
+    amount: 10000,
+    preferenceId: "<PREFERENCE_ID>",
+  };
+  const customization: any = {
+    paymentMethods: {
+      ticket: "all",
+      bankTransfer: "all",
+      creditCard: "all",
+      debitCard: "all",
+      mercadoPago: "all",
+    },
+    visual: undefined
+  };
+  const onSubmit = async (form: any) => {
+    return new Promise((resolve, reject) => {
+      fetch("/process_payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form.formData),
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          resolve(0);
+        })
+        .catch((error) => {
+          reject();
+        });
+    });
+  };
+  const onError = async (error: any) => {
+    console.log(error);
+  };
+  const onReady = async () => {};
 
-  useEffect(() => {
-  }, [])
+  return <Wrapper className="app-checkout-pro">
 
 
-  return (
-    <Wrapper className="app-checkout-pro">
-      <h3>White wireless mouse</h3>
-    </Wrapper>
-  );
-}
+<Payment
+   initialization={initialization}
+   customization={customization}
+   onSubmit={onSubmit}
+   onReady={onReady}
+   onError={onError}
+/>
+
+  </Wrapper>;
+};
 
 const Wrapper = styled.section`
   display: flex;
@@ -30,9 +66,5 @@ const Wrapper = styled.section`
   background: #dbdbfc;
 `;
 
-const ProductImg = styled.img`
-  max-width: 15rem;
-  border-radius: 1rem;
-`;
 
 export default PaymentBrick;
