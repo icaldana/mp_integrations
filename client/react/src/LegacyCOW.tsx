@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import mouseImg from './assets/mouse.jpg';
 
 interface CustomWindow extends Window {
   mercadoPago?: any;
 }
 
-const App = () => {
+const LegacyCOW = () => {
   const [preferenceId, setPreferenceId] = useState("")
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const App = () => {
   const createPreference = async () => {
     console.log("Creating preference...");
     try {
-      const preference = await fetch("http://localhost:8000/preference",
+      const preferenceRequest = await fetch("http://localhost:8000/preference",
         {
           headers: { "Content-type": "application/json; charset=UTF-8" },
           method: "POST",
@@ -46,9 +47,9 @@ const App = () => {
           })
         })
 
-      const preferenceJson = await preference.json();
-      console.log(`Preference created with id: ${preferenceJson.id}`);
-      setPreferenceId(preferenceJson.id);
+      const { preference } = await preferenceRequest.json();
+      console.log(`Preference created with id: ${(preference as any).id}`);
+      setPreferenceId((preference as any).id);
     } catch (error) {
       console.log("Error creating preference...");
       return JSON.stringify(error);
@@ -80,4 +81,4 @@ const ProductImg = styled.img`
   border-radius: 1rem;
 `;
 
-export default App;
+export default LegacyCOW;
