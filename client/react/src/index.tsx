@@ -10,9 +10,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <LegacyCOW />
-    <PaymentBrick />
+    <div className='app-organizer'>
+      <LegacyCOW />
+      <PaymentBrick />
+    </div>
   </React.StrictMode>
 );
+
 
 reportWebVitals();

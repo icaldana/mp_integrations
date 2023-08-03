@@ -10,12 +10,25 @@ const LegacyCOW = () => {
   const [preferenceId, setPreferenceId] = useState("")
 
   useEffect(() => {
+    addMercadoPagoScript();
     const searchParameters = Object.fromEntries(new URLSearchParams(window.location.search));
     if (Object.keys(searchParameters).length) {
-      console.log(searchParameters)
       alert(`Status do pagamento: ${JSON.stringify(searchParameters)}`)
     }
   }, [])
+
+  const addMercadoPagoScript = () => {
+    const script = document.createElement("script");
+    script.src = "https://sdk.mercadopago.com/js/v2";
+    script.async = true;
+    document.body.appendChild(script);
+
+    setTimeout(() => {
+      (window as CustomWindow).mercadoPago = 
+      new MercadoPago('TEST-814cc87a-446c-4d2d-ae74-eebcda92c656', { locale: 'pt-BR' } as unknown as any);
+    }, 1000);
+
+  }
 
   useEffect(() => {
     if (!preferenceId) return;
@@ -59,7 +72,7 @@ const LegacyCOW = () => {
 
   return (
     <Wrapper className="app-checkout-pro">
-      <h3>White wireless mouse</h3>
+      <h3>Checkout Pro</h3>
       <ProductImg src={mouseImg} className='shopping-cart--mouse' alt='mouse' />
       {!preferenceId && <button onClick={createPreference}>Comprar!</button>}
     </Wrapper>
@@ -71,9 +84,8 @@ const Wrapper = styled.section`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 2rem;
-  padding: 2em;
-  background: #dbdbfc;
+  gap: 1rem;
+  padding: 1em;
 `;
 
 const ProductImg = styled.img`

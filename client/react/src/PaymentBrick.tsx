@@ -7,7 +7,7 @@ initMercadoPago("TEST-814cc87a-446c-4d2d-ae74-eebcda92c656");
 const PaymentBrick = () => {
   const initialization = {
     amount: 10000,
-    preferenceId: "<PREFERENCE_ID>",
+    preferenceId: "285966773-0f5aaa61-6b61-43d5-b8db-4627609e1512",
   };
   const customization: any = {
     paymentMethods: {
@@ -61,9 +61,8 @@ const Wrapper = styled.section`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 2rem;
-  padding: 2em;
-  background: #dbdbfc;
+  gap: 1rem;
+  padding: 1em;
 `;
 
 
