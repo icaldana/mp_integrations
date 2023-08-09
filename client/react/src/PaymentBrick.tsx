@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { Payment } from '@mercadopago/sdk-react';
 
 import { initMercadoPago } from "@mercadopago/sdk-react";
-initMercadoPago("TEST-814cc87a-446c-4d2d-ae74-eebcda92c656");
+initMercadoPago("TEST-de563cac-2acb-4ec6-b506-9fb302a2848d");
 const PaymentBrick = () => {
   const initialization = {
     amount: 10000,
-    preferenceId: "285966773-0f5aaa61-6b61-43d5-b8db-4627609e1512",
+    preferenceId: "1322442691-c9788a31-3aad-4998-9eb1-87b0e94675e3",
   };
   const customization: any = {
     paymentMethods: {
@@ -21,7 +21,7 @@ const PaymentBrick = () => {
   };
   const onSubmit = async (form: any) => {
     return new Promise((resolve, reject) => {
-      fetch("/process_payment", {
+      fetch("http://localhost:8000/process_payment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const Wrapper = styled.section`
   justify-content: center;
   flex-direction: column;
   gap: 1rem;
-  padding: 1em;
+  margin-top: 1em;
 `;
 
 

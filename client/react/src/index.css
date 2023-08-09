@@ -20,3 +20,17 @@ code {
   background: #e5e5fc;
   align-items: start;
 }
+
+
+.selector-container {
+  margin: 2em;
+}
+
+.selector-component {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+  margin-top: 10px;
+}

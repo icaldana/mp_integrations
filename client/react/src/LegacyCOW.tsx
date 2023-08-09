@@ -25,7 +25,7 @@ const LegacyCOW = () => {
 
     setTimeout(() => {
       (window as CustomWindow).mercadoPago = 
-      new MercadoPago('TEST-814cc87a-446c-4d2d-ae74-eebcda92c656', { locale: 'pt-BR' } as unknown as any);
+      new MercadoPago('TEST-de563cac-2acb-4ec6-b506-9fb302a2848d', { locale: 'pt-BR' } as unknown as any);
     }, 1000);
 
   }
@@ -85,7 +85,6 @@ const Wrapper = styled.section`
   justify-content: center;
   flex-direction: column;
   gap: 1rem;
-  padding: 1em;
 `;
 
 const ProductImg = styled.img`

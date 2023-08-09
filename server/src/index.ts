@@ -4,6 +4,7 @@ import path from "path";
 import cors from "cors";
 import mercadopago from "mercadopago";
 import { CreatePreferencePayload } from "mercadopago/models/preferences/create-payload.model";
+import { CreatePaymentPayload } from "mercadopago/models/payment/create-payload.model";
 
 dotenv.config();
 const app: Express = express();
@@ -61,9 +62,12 @@ app.post("/preference", (req: Request, res: Response) => {
 });
 
 app.post("/process_payment", (req: Request, res: Response) => {
-  console.log(req.body);
+  var payment_data: CreatePaymentPayload = {
+    ...req.body,
+    transaction_amount: req.body.transaction_amount,
+  };
   mercadopago.payment
-    .save(req.body)
+    .save(payment_data)
     .then(function (response) {
       const { status, status_detail, id } = response.body;
       res.status(response.status).json({ status, status_detail, id });
