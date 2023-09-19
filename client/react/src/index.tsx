@@ -3,9 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import LegacyCOW from "./LegacyCOW";
 import PaymentBrick from "./PaymentBrick";
+import PaymentBrickCTA from "./PaymentBrickCTA";
 
 const ComponentChooser: React.FC = () => {
-  const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
+  const [selectedComponent, setSelectedComponent] = useState<string | null>(
+    null
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedComponent(event.target.value);
@@ -17,6 +20,8 @@ const ComponentChooser: React.FC = () => {
         return <LegacyCOW />;
       case "PaymentBrick":
         return <PaymentBrick />;
+      case "PaymentBrickCTA":
+        return <PaymentBrickCTA />;
       default:
         return null;
     }
@@ -25,12 +30,15 @@ const ComponentChooser: React.FC = () => {
   return (
     <div className="selector-container">
       <h1>Choose a Brick</h1>
-      <select className="selector-component"
+      <select
+        className="selector-component"
         value={selectedComponent || ""}
-        onChange={handleChange}>
+        onChange={handleChange}
+      >
         <option value="">Select a component</option>
         <option value="LegacyCOW">Legacy COW</option>
         <option value="PaymentBrick">Payment Brick</option>
+        <option value="PaymentBrickCTA">Payment Brick CTA</option>
       </select>
       {renderSelectedComponent()}
     </div>
@@ -48,4 +56,3 @@ root.render(
     </div>
   </React.StrictMode>
 );
-

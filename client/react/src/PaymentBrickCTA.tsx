@@ -9,7 +9,37 @@ interface CustomWindows extends Window {
   paymentBrickController?: any;
 }
 
-const PaymentBrick = () => {
+const createPayment = () => {
+  const customWindow: CustomWindows = window;
+  customWindow.paymentBrickController
+    .getFormData()
+    .then((form: any) => {
+      console.log("formData received, creating payment...");
+      fetch("http://localhost:8000/process_payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...form.formData,
+          description: "White mouse",
+          external_reference: "Mouse Store",
+        }),
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    })
+    .catch((error: any) => {
+      console.error(error);
+    });
+};
+
+const PaymentBrickCustomCTA: React.FC = () => {
   // Hard to know how to type the payers object
   const initialization = {
     amount: 10000,
@@ -37,72 +67,18 @@ const PaymentBrick = () => {
   // PROBLEM WITH THIS TYPE
   const customization: any = {
     paymentMethods: {
-      bankTransfer: "all" as any, // ['pix']
       ticket: "all",
-      atm: "all",
+      bankTransfer: "all",
       creditCard: "all",
       debitCard: "all",
       mercadoPago: "all",
-      minInstallments: 1,
-      maxInstallments: 10,
     },
     visual: {
-      defaultPaymentOption: {
-        ticketForm: true,
-      },
       hideFormTitle: false,
-      hidePaymentButton: false,
-      texts: {
-        formTitle: "Form title",
-        emailSectionTitle: "email section title",
-        installmentsSectionTitle: "installments section title",
-        cardholderName: {
-          label: "cardholder name",
-          placeholder: "cardholder name",
-        },
-        email: {
-          label: "email",
-          placeholder: "email",
-        },
-        cardholderIdentification: {
-          label: "cardholder identification",
-        },
-        cardNumber: {
-          label: "card number",
-          placeholder: "card number",
-        },
-        expirationDate: {
-          label: "expiration date",
-          placeholder: "expiration date",
-        },
-        securityCode: {
-          label: "security code",
-          placeholder: "security code",
-        },
-        entityType: {
-          placeholder: "entity type",
-          label: "entity type",
-        },
-        financialInstitution: {
-          placeholder: "financial institution",
-          label: "financial institution",
-        },
-        selectInstallments: "select installments",
-        selectIssuerBank: "see issuer bank",
-        formSubmit: "form submit",
-        paymentMethods: {
-          newCreditCardTitle: "new credit card",
-          creditCardTitle: "credit card",
-          creditCardValueProp: "credit card value prop",
-          newDebitCardTitle: "new debit card",
-          debitCardTitle: "debit card",
-          debitCardValueProp: "debit card value prop",
-          ticketTitle: "ticket",
-          ticketValueProp: "ticket value prop",
-        },
-      },
+      hidePaymentButton: true,
     },
   };
+
   // Form there is any. I don't know how to type this --> any.formData
   const onSubmit = async (form: any) => {
     return new Promise((resolve, reject) => {
@@ -132,14 +108,7 @@ const PaymentBrick = () => {
   const onError = async (error: any) => {
     console.log(error);
   };
-  const onReady = async () => {
-    const customWindow: CustomWindows = window;
-    setTimeout(() => {
-      if (customWindow.paymentBrickController.update({ amount: 20000 })) {
-        alert("Amount updated");
-      }
-    }, 10000);
-  };
+  const onReady = async () => {};
 
   return (
     <Wrapper className="app-checkout">
@@ -150,6 +119,9 @@ const PaymentBrick = () => {
         onReady={onReady}
         onError={onError}
       />
+      <button type="button" onClick={createPayment}>
+        Custom Payment Button
+      </button>
     </Wrapper>
   );
 };
@@ -163,4 +135,4 @@ const Wrapper = styled.section`
   margin-top: 1em;
 `;
 
-export default PaymentBrick;
+export default PaymentBrickCustomCTA;

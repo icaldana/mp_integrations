@@ -10,9 +10,11 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
-mercadopago.configure({
-  access_token: String(process.env.ACCESS_TOKEN),
-});
+// mercadopago.configure({
+//   access_token: String(process.env.ACCESS_TOKEN),
+// });
+
+mercadopago.configurations.setAccessToken(String(process.env.ACCESS_TOKEN));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -65,7 +67,10 @@ app.post("/process_payment", (req: Request, res: Response) => {
   var payment_data: CreatePaymentPayload = {
     ...req.body,
     transaction_amount: req.body.transaction_amount,
+    three_d_secure_mode: "optional",
   };
+
+  console.log(payment_data);
   mercadopago.payment
     .save(payment_data)
     .then(function (response) {
