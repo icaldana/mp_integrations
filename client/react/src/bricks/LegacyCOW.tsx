@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import mouseImg from './assets/mouse.jpg';
+import mouseImg from '../assets/mouse.jpg';
 
 interface CustomWindow extends Window {
   mercadoPago?: any;

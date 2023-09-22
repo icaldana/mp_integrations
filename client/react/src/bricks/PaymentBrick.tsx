@@ -34,10 +34,9 @@ const PaymentBrick = () => {
     },
   };
 
-  // PROBLEM WITH THIS TYPE
   const customization: any = {
     paymentMethods: {
-      bankTransfer: "all" as any, // ['pix']
+      bankTransfer: ["pix"],
       ticket: "all",
       atm: "all",
       creditCard: "all",
@@ -103,6 +102,7 @@ const PaymentBrick = () => {
       },
     },
   };
+
   // Form there is any. I don't know how to type this --> any.formData
   const onSubmit = async (form: any) => {
     return new Promise((resolve, reject) => {
