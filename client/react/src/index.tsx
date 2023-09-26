@@ -4,7 +4,9 @@ import "./index.css";
 import LegacyCOW from "./bricks/LegacyCOW";
 import PaymentBrick from "./bricks/PaymentBrick";
 import PaymentBrickCTA from "./bricks/PaymentBrickCTA";
-import WalletBrick from "./bricks/WalletBrick";
+import WalletBrickOnInit from "./bricks/WalletBrickOnInit";
+import WalletBrickOnSubmit from "./bricks/WalletBrickOnSubmit";
+import CardPaymentBrick from "./bricks/CardPayment";
 
 const ComponentChooser: React.FC = () => {
   const [selectedComponent, setSelectedComponent] = useState<string | null>(
@@ -19,12 +21,16 @@ const ComponentChooser: React.FC = () => {
     switch (selectedComponent) {
       case "LegacyCOW":
         return <LegacyCOW />;
+      case "CardPayment":
+        return <CardPaymentBrick />;
       case "PaymentBrick":
         return <PaymentBrick />;
       case "PaymentBrickCTA":
         return <PaymentBrickCTA />;
-        case "WalletBrick":
-          return <WalletBrick />;
+      case "WalletBrickSubmit":
+        return <WalletBrickOnSubmit />;
+      case "WalletBrickInit":
+        return <WalletBrickOnInit />;
       default:
         return null;
     }
@@ -40,9 +46,11 @@ const ComponentChooser: React.FC = () => {
       >
         <option value="">Select a component</option>
         <option value="LegacyCOW">Legacy COW</option>
+        <option value="CardPayment">CardPayment</option>
         <option value="PaymentBrick">Payment Brick</option>
         <option value="PaymentBrickCTA">Payment Brick CTA</option>
-        <option value="WalletBrick">Wallet Brick</option>
+        <option value="WalletBrickSubmit">Wallet Brick (on Submit)</option>
+        <option value="WalletBrickInit">Wallet Brick (on init)</option>
       </select>
       {renderSelectedComponent()}
     </div>

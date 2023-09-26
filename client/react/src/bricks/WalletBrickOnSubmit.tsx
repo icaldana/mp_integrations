@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { initMercadoPago } from "@mercadopago/sdk-react";
 initMercadoPago("TEST-de563cac-2acb-4ec6-b506-9fb302a2848d");
 
-const WalletBrick: React.FC = () => {
+const WalletBrickOnSubmit: React.FC = () => {
   const onSubmit = async (formData: any) => {
     console.log(formData);
     const yourRequestBodyHere = {
@@ -24,6 +24,7 @@ const WalletBrick: React.FC = () => {
       })
         .then((response) => response.json())
         .then((response) => {
+          console.log("Preference: ", response.preference.id);
           resolve(response.preference.id);
         })
         .catch((error) => {
@@ -52,4 +53,4 @@ const Wrapper = styled.section`
   margin-top: 1em;
 `;
 
-export default WalletBrick;
+export default WalletBrickOnSubmit;
