@@ -14,10 +14,35 @@
             const settings = {
                 initialization: {
                     amount: 100,
+                    payer: {
+                        email: "test_user_63901892@testuser.com",
+                        identification: {
+                            type: 'CPF',
+                            number: '12345678909',
+                        },
+                    }
+                },
+                customization: {
+                    paymentMethods: {
+                        minInstallments: 2,
+                        maxInstallments: 5,
+                    },
+                    paymentMethods: {
+                        types: {
+                            excluded: ['debit_card']
+                        }
+                    },
+                    visual: {
+                        hideFormTitle: false,
+                        hidePaymentButton: false,
+                    }
                 },
                 callbacks: {
                     onReady: () => console.log("Brick ready!"),
-                    onSubmit: (formData) => {
+                    onSubmit: (formData, additionalData) => {
+                        console.log("Form data:", formData);
+                        console.log("Additional data:", additionalData);
+
                         return new Promise((resolve, reject) => {
                             fetch("http://localhost:8000/process_payment", {
                                 method: "POST",
@@ -47,8 +72,23 @@
             );
         };
         renderCardPaymentBrick(bricksBuilder);
+
+        function updateAmount(amount) {
+            window.cardPaymentBrickController.update({ amount: amount });
+        }
+
+        function getAdditionalData() {
+            window.cardPaymentBrickController.getAdditionalData()
+                .then((additionalData) => {
+                    console.log("Additional data:", additionalData);
+                })
+                .catch((error) => console.error(error));
+        }
+
     </script>
     <div id="cardPaymentBrick_container"></div>
+    <button onclick="updateAmount(840)">Update</button>
+    <button onclick="getAdditionalData()">Additional data</button>
 </body>
 
 </html>

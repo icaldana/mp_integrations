@@ -5,18 +5,15 @@ import { CardPayment } from "@mercadopago/sdk-react";
 import { initMercadoPago } from "@mercadopago/sdk-react";
 initMercadoPago("TEST-de563cac-2acb-4ec6-b506-9fb302a2848d");
 
-interface CustomWindows extends Window {
-  paymentBrickController?: any;
-}
-
 const CardPaymentBrick = () => {
-
   const initialization = {
-    amount: 100,
-   };
-   
-   const onSubmit = async (formData: any): Promise<void> => {
-    // callback chamado ao clicar no botão de submissão dos dados
+    amount: 1000,
+  };
+
+  const onSubmit = async (formData: any, additionalData: any): Promise<void> => {
+    console.log("Form data: ", formData);
+    console.log("Additional data: ", additionalData);
+
     return new Promise((resolve, reject) => {
       fetch("http://localhost:8000/process_payment", {
         method: "POST",
@@ -35,21 +32,19 @@ const CardPaymentBrick = () => {
           reject();
         });
     });
-   };
-   
-   const onError = async (error: any) => console.log(error);
-   const onReady = async () => console.log("ready");
-   
+  };
+
+  const onError = async (error: any) => console.log(error);
+  const onReady = async () => console.log("ready");
 
   return (
     <Wrapper className="app-checkout">
-<CardPayment
-   initialization={initialization}
-   onSubmit={onSubmit}
-   onReady={onReady}
-   onError={onError}
-/>
-
+      <CardPayment
+        initialization={initialization}
+        onSubmit={onSubmit}
+        onReady={onReady}
+        onError={onError}
+      />
     </Wrapper>
   );
 };

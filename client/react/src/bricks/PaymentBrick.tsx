@@ -51,60 +51,14 @@ const PaymentBrick = () => {
       },
       hideFormTitle: false,
       hidePaymentButton: false,
-      texts: {
-        formTitle: "Form title",
-        emailSectionTitle: "email section title",
-        installmentsSectionTitle: "installments section title",
-        cardholderName: {
-          label: "cardholder name",
-          placeholder: "cardholder name",
-        },
-        email: {
-          label: "email",
-          placeholder: "email",
-        },
-        cardholderIdentification: {
-          label: "cardholder identification",
-        },
-        cardNumber: {
-          label: "card number",
-          placeholder: "card number",
-        },
-        expirationDate: {
-          label: "expiration date",
-          placeholder: "expiration date",
-        },
-        securityCode: {
-          label: "security code",
-          placeholder: "security code",
-        },
-        entityType: {
-          placeholder: "entity type",
-          label: "entity type",
-        },
-        financialInstitution: {
-          placeholder: "financial institution",
-          label: "financial institution",
-        },
-        selectInstallments: "select installments",
-        selectIssuerBank: "see issuer bank",
-        formSubmit: "form submit",
-        paymentMethods: {
-          newCreditCardTitle: "new credit card",
-          creditCardTitle: "credit card",
-          creditCardValueProp: "credit card value prop",
-          newDebitCardTitle: "new debit card",
-          debitCardTitle: "debit card",
-          debitCardValueProp: "debit card value prop",
-          ticketTitle: "ticket",
-          ticketValueProp: "ticket value prop",
-        },
-      },
     },
   };
 
   // Form there is any. I don't know how to type this --> any.formData
-  const onSubmit = async (form: any) => {
+  const onSubmit = async (form: any, additionalData: any) => {
+    console.log("Form data: ", form);
+    console.log("Additional data: ", additionalData);
+
     return new Promise((resolve, reject) => {
       fetch("http://localhost:8000/process_payment", {
         method: "POST",
